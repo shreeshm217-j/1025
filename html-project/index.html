@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DK Pizza Cafe - Best Pizza in Mallawan</title>
+    <meta name="description" content="DK Pizza Cafe - Authentic Italian flavors in Mallawan. Order pizza, pasta, burgers online via WhatsApp. Dine-in, drive-through & delivery available.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="rating-badge">
+                <span class="star">⭐</span>
+                <span class="rating-text"><strong id="hero-rating">4.9</strong> Rating</span>
+                <span class="reviews-text">(<span id="hero-reviews">67</span> reviews)</span>
+            </div>
+            
+            <h1 class="hero-title">DK Pizza Cafe</h1>
+            <p class="hero-subtitle">डीके पिज्जा कैफे</p>
+            <p class="hero-tagline">Authentic Italian flavors in the heart of Mallawan</p>
+            
+            <div class="hero-buttons">
+                <button class="btn btn-whatsapp" onclick="orderWhatsApp()" data-testid="hero-order-whatsapp-btn">
+                    <span class="whatsapp-icon">💬</span>
+                    Order on WhatsApp
+                </button>
+                <a href="menu.html" class="btn btn-primary" data-testid="hero-view-menu-btn">View Menu</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <h2 class="section-title">Our Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🏠</div>
+                    <h3>Dine-In</h3>
+                    <p>Enjoy your meal in our cozy restaurant atmosphere</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🚗</div>
+                    <h3>Drive-Through</h3>
+                    <p>Quick pickup without leaving your car</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🛵</div>
+                    <h3>No-Contact Delivery</h3>
+                    <p>Safe and fast delivery to your doorstep</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-content">
+                    <h2 class="section-title">About DK Pizza Cafe</h2>
+                    <p class="about-text">
+                        DK Pizza Cafe is a popular pizza spot in Mallawan known for delicious pizzas, quick service and affordable prices. Located near the Government Hospital on Unnao-Hardoi Road, the cafe offers dine-in, drive-through and delivery options.
+                    </p>
+                    <p class="about-text">
+                        We take pride in using fresh ingredients, authentic recipes, and providing exceptional service to every customer. Whether you're craving a classic Margherita or an adventurous specialty pizza, we've got something for everyone.
+                    </p>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <span class="contact-icon">🕐</span>
+                            <div>
+                                <strong>Opening Hours</strong>
+                                <p id="opening-hours">11:00 AM – 10:00 PM</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-icon">📞</span>
+                            <div>
+                                <strong>Phone</strong>
+                                <p id="phone-number">+91 99564 07087</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-icon">📍</span>
+                            <div>
+                                <strong>Address</strong>
+                                <p id="address">Unnao - Hardoi Rd, opposite Government Hospital, Mallawan, UP 241303</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80" alt="Restaurant interior">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="reviews" id="reviews">
+        <div class="container">
+            <div class="reviews-header">
+                <h2 class="section-title">What Our Customers Say</h2>
+                <div class="overall-rating">
+                    <span class="star-large">⭐</span>
+                    <span class="rating-number" id="overall-rating">4.9</span>
+                </div>
+                <p class="reviews-count">Based on <span id="total-reviews">67</span> reviews</p>
+            </div>
+
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                    <p class="review-text">"Best pizza in Mallawan! The cheese quality is amazing and prices are very reasonable."</p>
+                    <p class="review-author">- Rajesh Kumar</p>
+                </div>
+                <div class="review-card">
+                    <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                    <p class="review-text">"Affordable and delicious. Their pasta is also very good. Fast service!"</p>
+                    <p class="review-author">- Priya Singh</p>
+                </div>
+                <div class="review-card">
+                    <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                    <p class="review-text">"Great taste and amazing service. The drive-through is very convenient!"</p>
+                    <p class="review-author">- Amit Verma</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Section -->
+    <section class="location" id="location">
+        <div class="container">
+            <h2 class="section-title">Find Us</h2>
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3559.123456789012!2d80.12345678901234!3d26.87654321098765!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjbCsDUyJzM1LjYiTiA4MMKwMDcnMjQuNCJF!5e0!3m2!1sen!2sin!4v1234567890123!5m2!1sen!2sin"
+                    width="100%" 
+                    height="450" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    title="DK Pizza Cafe Location">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>DK Pizza Cafe</h3>
+                    <p id="footer-price-range">₹200 - ₹400 per person</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <p id="footer-phone">+91 99564 07087</p>
+                    <p id="footer-hours">11:00 AM - 10:00 PM</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Address</h4>
+                    <p id="footer-address">Unnao - Hardoi Rd, Mallawan, UP 241303</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 DK Pizza Cafe. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <button class="whatsapp-float" onclick="orderWhatsApp()" data-testid="floating-whatsapp-btn" aria-label="Order on WhatsApp">
+        💬
+    </button>
+
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
