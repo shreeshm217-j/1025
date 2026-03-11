@@ -6,18 +6,23 @@ A modern, fully functional pizza restaurant website built with pure HTML, CSS, a
 
 ### Customer-Facing Features
 - **Homepage**: Hero section with ratings, services, about, reviews, and location
-- **Menu Page**: Browse menu by categories (Pizzas, Garlic Bread, Burgers, Pasta, Fries & Sides, Beverages)
-- **Shopping Cart**: Add items, adjust quantities, view total
-- **WhatsApp Ordering**: One-click order generation with formatted message
+- **Menu Page**: Browse menu by categories with size options (Small, Medium, Large)
+- **Size Selection**: Choose different sizes with different prices for each product
+- **Shopping Cart**: Add items with selected sizes, adjust quantities, view total
+- **WhatsApp Ordering**: One-click order generation with formatted message including sizes
 - **Responsive Design**: Mobile-first, works on all devices
 - **Floating WhatsApp Button**: Quick access from any page
+- **Dynamic Categories**: Categories load from admin settings
 
 ### Admin Features
 - **Authentication**: Simple login/signup system (localStorage-based)
 - **Menu Management**: Add, edit, delete menu items with images
+- **Size Management**: Add multiple sizes (Small, Medium, Large, Regular, etc.) with different prices
+- **Image Management**: Add or change product images via URL
+- **Category Management**: Create, edit, delete product categories
 - **Settings Management**: Update opening hours, phone, address, price range
-- **Order Tracking**: View all WhatsApp orders placed
-- **Dashboard**: Organized tabs for menu, orders, and settings
+- **Order Tracking**: View all WhatsApp orders placed with size information
+- **Dashboard**: Organized tabs for menu, categories, orders, and settings
 
 ## Project Structure
 
@@ -60,15 +65,23 @@ html-project/
 2. **Manage Menu**:
    - Dashboard → Menu tab
    - Add new items with "Add Item" button
-   - Edit existing items
+   - Add multiple sizes (Small, Medium, Large) with different prices
+   - Add product images via URL
+   - Edit existing items (change name, description, prices, sizes, image)
    - Delete items you no longer offer
 
-3. **Update Settings**:
+3. **Manage Categories**:
+   - Dashboard → Categories tab
+   - Add new categories (Pizza, Drinks, Desserts, etc.)
+   - Edit category names
+   - Delete categories (items move to Uncategorized)
+
+4. **Update Settings**:
    - Dashboard → Settings tab
    - Update opening hours, phone, address, price range
    - Click "Save Settings"
 
-4. **View Orders**:
+5. **View Orders**:
    - Dashboard → Orders tab
    - See all WhatsApp orders with timestamps and items
 

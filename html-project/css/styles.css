@@ -672,6 +672,46 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--primary);
 }
 
+/* Size Options */
+.size-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 12px 0;
+    padding: 12px;
+    background: rgba(42, 42, 42, 0.3);
+    border-radius: 8px;
+}
+
+.size-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background 0.3s ease;
+}
+
+.size-option:hover {
+    background: rgba(42, 42, 42, 0.5);
+}
+
+.size-option input[type="radio"] {
+    cursor: pointer;
+}
+
+.size-label {
+    flex: 1;
+    color: var(--foreground);
+    font-weight: 500;
+}
+
+.size-price {
+    color: var(--primary);
+    font-weight: 700;
+}
+
 .add-to-cart-btn {
     background: var(--primary);
     color: white;
@@ -1079,7 +1119,14 @@ h1, h2, h3, h4, h5, h6 {
     display: inline-block;
     font-size: 12px;
     color: var(--secondary);
+    margin-bottom: 8px;
+}
+
+.sizes-display {
+    font-size: 13px;
+    color: var(--muted-foreground);
     margin-bottom: 12px;
+    font-weight: 500;
 }
 
 .admin-item-actions {
@@ -1134,6 +1181,48 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
     justify-content: space-between;
     color: var(--foreground);
+}
+
+/* Categories List */
+.categories-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.category-item {
+    background: var(--surface);
+    padding: 20px 24px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.category-info h3 {
+    font-size: 20px;
+    color: var(--foreground);
+    margin-bottom: 4px;
+}
+
+.category-count {
+    font-size: 14px;
+    color: var(--muted-foreground);
+}
+
+.category-actions {
+    display: flex;
+    gap: 8px;
+}
+
+/* Size Fields */
+.size-field {
+    margin-bottom: 12px;
+}
+
+.size-field input {
+    width: 100%;
 }
 
 /* Settings Form */

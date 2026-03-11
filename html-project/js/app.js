@@ -113,25 +113,29 @@ function updateCartDisplay() {
         cartEmpty.style.display = 'none';
         if (cartFooter) cartFooter.style.display = 'block';
         
-        cartItemsContainer.innerHTML = cart.map(item => `
-            <div class=\"cart-item\" data-testid=\"cart-item-${item.id}\">
+        cartItemsContainer.innerHTML = cart.map(item => {
+            const itemId = item.cartItemId || item.id;
+            const sizeInfo = item.selectedSize ? ` (${item.selectedSize})` : '';
+            return `
+            <div class=\"cart-item\" data-testid=\"cart-item-${itemId}\">
                 <div class=\"cart-item-header\">
                     <div>
-                        <h3>${item.name}</h3>
+                        <h3>${item.name}${sizeInfo}</h3>
                         <div class=\"cart-item-price\">₹${item.price}</div>
                     </div>
-                    <button class=\"remove-btn\" onclick=\"handleRemoveFromCart('${item.id}')\" data-testid=\"remove-item-${item.id}\">
+                    <button class=\"remove-btn\" onclick=\"handleRemoveFromCart('${itemId}')\" data-testid=\"remove-item-${itemId}\">
                         🗑️
                     </button>
                 </div>
                 <div class=\"cart-item-controls\">
-                    <button class=\"qty-btn\" onclick=\"handleDecreaseQty('${item.id}')\" data-testid=\"decrease-qty-${item.id}\">−</button>
+                    <button class=\"qty-btn\" onclick=\"handleDecreaseQty('${itemId}')\" data-testid=\"decrease-qty-${itemId}\">−</button>
                     <span class=\"qty-display\">${item.quantity}</span>
-                    <button class=\"qty-btn\" onclick=\"handleIncreaseQty('${item.id}')\" data-testid=\"increase-qty-${item.id}\">+</button>
+                    <button class=\"qty-btn\" onclick=\"handleIncreaseQty('${itemId}')\" data-testid=\"increase-qty-${itemId}\">+</button>
                     <span class=\"cart-item-total\">₹${item.price * item.quantity}</span>
                 </div>
             </div>
-        `).join('');
+        `;
+        }).join('');
         
         if (cartTotal) {
             cartTotal.textContent = '₹' + getCartTotal();
@@ -141,7 +145,7 @@ function updateCartDisplay() {
 
 function handleDecreaseQty(itemId) {
     const cart = getCart();
-    const item = cart.find(i => i.id === itemId);
+    const item = cart.find(i => (i.cartItemId || i.id) === itemId);
     if (item) {
         updateCartQuantity(itemId, item.quantity - 1);
         updateCartDisplay();
@@ -150,7 +154,7 @@ function handleDecreaseQty(itemId) {
 
 function handleIncreaseQty(itemId) {
     const cart = getCart();
-    const item = cart.find(i => i.id === itemId);
+    const item = cart.find(i => (i.cartItemId || i.id) === itemId);
     if (item) {
         updateCartQuantity(itemId, item.quantity + 1);
         updateCartDisplay();

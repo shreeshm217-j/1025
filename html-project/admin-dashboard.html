@@ -26,6 +26,7 @@
     <!-- Tabs -->
     <div class="admin-tabs">
         <button class="admin-tab active" onclick="switchTab('menu')" data-testid="tab-menu">Menu</button>
+        <button class="admin-tab" onclick="switchTab('categories')" data-testid="tab-categories">Categories</button>
         <button class="admin-tab" onclick="switchTab('orders')" data-testid="tab-orders">Orders</button>
         <button class="admin-tab" onclick="switchTab('settings')" data-testid="tab-settings">Settings</button>
     </div>
@@ -42,6 +43,22 @@
 
             <div id="admin-menu-grid" class="admin-menu-grid">
                 <!-- Menu items will be dynamically inserted -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Categories Tab -->
+    <div id="categories-tab" class="tab-content">
+        <div class="container">
+            <div class="tab-header">
+                <h2>Product Categories</h2>
+                <button class="btn btn-primary" onclick="openAddCategoryModal()" data-testid="add-category-btn">
+                    ➕ Add Category
+                </button>
+            </div>
+
+            <div id="categories-list" class="categories-list">
+                <!-- Categories will be dynamically inserted -->
             </div>
         </div>
     </div>
@@ -112,30 +129,54 @@
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="item-price">Price (₹)</label>
-                        <input type="number" id="item-price" step="0.01" data-testid="item-price-input" required>
-                    </div>
-
-                    <div class="form-group">
                         <label for="item-category">Category</label>
                         <select id="item-category" data-testid="item-category-select" required>
-                            <option value="Pizzas">Pizzas</option>
-                            <option value="Garlic Bread">Garlic Bread</option>
-                            <option value="Burgers">Burgers</option>
-                            <option value="Pasta">Pasta</option>
-                            <option value="Fries & Sides">Fries & Sides</option>
-                            <option value="Beverages">Beverages</option>
+                            <!-- Categories loaded dynamically -->
                         </select>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="item-image">Image URL (optional)</label>
-                    <input type="url" id="item-image" data-testid="item-image-input">
+                    <label for="item-image">Image URL</label>
+                    <input type="url" id="item-image" data-testid="item-image-input" placeholder="https://example.com/image.jpg">
+                    <small style="color: var(--muted-foreground); display: block; margin-top: 4px;">
+                        Leave empty for no image
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label>Product Sizes & Prices</label>
+                    <div id="sizes-container">
+                        <!-- Sizes will be added dynamically -->
+                    </div>
+                    <button type="button" class="btn btn-outline btn-sm" onclick="addSizeField()" style="margin-top: 12px;">
+                        ➕ Add Size
+                    </button>
                 </div>
 
                 <button type="submit" class="btn btn-primary btn-full" data-testid="save-item-btn">
                     💾 Save Item
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Category Modal -->
+    <div id="category-modal" class="modal">
+        <div class="modal-overlay" onclick="closeCategoryModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="category-modal-title">Add Category</h3>
+                <button class="modal-close" onclick="closeCategoryModal()">&times;</button>
+            </div>
+            <form id="category-form" onsubmit="saveCategory(event)">
+                <div class="form-group">
+                    <label for="category-name">Category Name</label>
+                    <input type="text" id="category-name" data-testid="category-name-input" placeholder="e.g., Pizzas, Burgers" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full" data-testid="save-category-btn">
+                    💾 Save Category
                 </button>
             </form>
         </div>

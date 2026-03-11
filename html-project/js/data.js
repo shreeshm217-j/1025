@@ -2,6 +2,19 @@
 
 // Initialize data if not exists
 function initializeData() {
+    // Initialize categories
+    if (!localStorage.getItem('categories')) {
+        const defaultCategories = [
+            { id: generateId(), name: "Pizzas", order: 1 },
+            { id: generateId(), name: "Garlic Bread", order: 2 },
+            { id: generateId(), name: "Burgers", order: 3 },
+            { id: generateId(), name: "Pasta", order: 4 },
+            { id: generateId(), name: "Fries & Sides", order: 5 },
+            { id: generateId(), name: "Beverages", order: 6 }
+        ];
+        localStorage.setItem('categories', JSON.stringify(defaultCategories));
+    }
+
     if (!localStorage.getItem('menuItems')) {
         const sampleMenu = [
             // Pizzas
@@ -9,141 +22,179 @@ function initializeData() {
                 id: generateId(),
                 name: "Margherita Pizza",
                 description: "Classic pizza with fresh mozzarella, basil, and tomato sauce",
-                price: 250,
                 category: "Pizzas",
                 image_url: "https://images.unsplash.com/photo-1772494047822-d0375853f7fd?w=800&q=80",
-                available: true
+                available: true,
+                sizes: [
+                    { name: "Small", price: 200 },
+                    { name: "Medium", price: 250 },
+                    { name: "Large", price: 320 }
+                ]
             },
             {
                 id: generateId(),
                 name: "Pepperoni Pizza",
                 description: "Loaded with pepperoni slices and extra cheese",
-                price: 320,
                 category: "Pizzas",
                 image_url: "https://images.unsplash.com/photo-1595708684082-a173bb3a06c5?w=800&q=80",
-                available: true
+                available: true,
+                sizes: [
+                    { name: "Small", price: 250 },
+                    { name: "Medium", price: 320 },
+                    { name: "Large", price: 400 }
+                ]
             },
             {
                 id: generateId(),
                 name: "Veggie Supreme Pizza",
                 description: "Topped with fresh vegetables, olives, and cheese",
-                price: 290,
                 category: "Pizzas",
                 image_url: "https://images.unsplash.com/photo-1772494047822-d0375853f7fd?w=800&q=80",
-                available: true
+                available: true,
+                sizes: [
+                    { name: "Small", price: 220 },
+                    { name: "Medium", price: 290 },
+                    { name: "Large", price: 360 }
+                ]
             },
             {
                 id: generateId(),
                 name: "Paneer Tikka Pizza",
                 description: "Indian style pizza with paneer tikka and special spices",
-                price: 310,
                 category: "Pizzas",
                 image_url: "https://images.unsplash.com/photo-1595708684082-a173bb3a06c5?w=800&q=80",
-                available: true
+                available: true,
+                sizes: [
+                    { name: "Small", price: 240 },
+                    { name: "Medium", price: 310 },
+                    { name: "Large", price: 380 }
+                ]
             },
             // Garlic Bread
             {
                 id: generateId(),
                 name: "Classic Garlic Bread",
                 description: "Crispy bread with garlic butter and herbs",
-                price: 120,
                 category: "Garlic Bread",
                 image_url: "",
-                available: true
+                available: true,
+                sizes: [
+                    { name: "Regular", price: 120 }
+                ]
             },
             {
                 id: generateId(),
                 name: "Cheese Garlic Bread",
                 description: "Garlic bread topped with melted mozzarella cheese",
-                price: 150,
                 category: "Garlic Bread",
                 image_url: "",
-                available: true
+                available: true,
+                sizes: [
+                    { name: "Regular", price: 150 }
+                ]
             },
             // Burgers
             {
                 id: generateId(),
                 name: "Chicken Burger",
                 description: "Juicy chicken patty with lettuce, tomato, and mayo",
-                price: 180,
                 category: "Burgers",
                 image_url: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&q=80",
-                available: true
+                available: true,
+                sizes: [
+                    { name: "Regular", price: 180 }
+                ]
             },
             {
                 id: generateId(),
                 name: "Veg Cheese Burger",
                 description: "Veggie patty with cheese, lettuce, and special sauce",
-                price: 150,
                 category: "Burgers",
                 image_url: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&q=80",
-                available: true
+                available: true,
+                sizes: [
+                    { name: "Regular", price: 150 }
+                ]
             },
             // Pasta
             {
                 id: generateId(),
                 name: "White Sauce Pasta",
                 description: "Creamy pasta with vegetables in white sauce",
-                price: 200,
                 category: "Pasta",
                 image_url: "https://images.unsplash.com/photo-1611270629569-8b357cb88da9?w=800&q=80",
-                available: true
+                available: true,
+                sizes: [
+                    { name: "Regular", price: 200 }
+                ]
             },
             {
                 id: generateId(),
                 name: "Red Sauce Pasta",
                 description: "Tangy pasta in tomato-based red sauce",
-                price: 190,
                 category: "Pasta",
                 image_url: "https://images.unsplash.com/photo-1611270629569-8b357cb88da9?w=800&q=80",
-                available: true
+                available: true,
+                sizes: [
+                    { name: "Regular", price: 190 }
+                ]
             },
             // Fries & Sides
             {
                 id: generateId(),
                 name: "French Fries",
                 description: "Crispy golden french fries",
-                price: 100,
                 category: "Fries & Sides",
                 image_url: "",
-                available: true
+                available: true,
+                sizes: [
+                    { name: "Regular", price: 100 }
+                ]
             },
             {
                 id: generateId(),
                 name: "Cheese Fries",
                 description: "French fries loaded with melted cheese",
-                price: 130,
                 category: "Fries & Sides",
                 image_url: "",
-                available: true
+                available: true,
+                sizes: [
+                    { name: "Regular", price: 130 }
+                ]
             },
             // Beverages
             {
                 id: generateId(),
                 name: "Coca Cola",
                 description: "Chilled Coca Cola (330ml)",
-                price: 50,
                 category: "Beverages",
                 image_url: "",
-                available: true
+                available: true,
+                sizes: [
+                    { name: "Regular", price: 50 }
+                ]
             },
             {
                 id: generateId(),
                 name: "Fresh Lime Soda",
                 description: "Refreshing lime soda with mint",
-                price: 60,
                 category: "Beverages",
                 image_url: "",
-                available: true
+                available: true,
+                sizes: [
+                    { name: "Regular", price: 60 }
+                ]
             },
             {
                 id: generateId(),
                 name: "Mango Shake",
                 description: "Thick and creamy mango shake",
-                price: 90,
                 category: "Beverages",
                 image_url: "",
-                available: true
+                available: true,
+                sizes: [
+                    { name: "Regular", price: 90 }
+                ]
             }
         ];
         localStorage.setItem('menuItems', JSON.stringify(sampleMenu));
@@ -246,7 +297,7 @@ function updateCartQuantity(itemId, quantity) {
         removeFromCart(itemId);
         return;
     }
-    const item = cart.find(i => i.id === itemId);
+    const item = cart.find(i => (i.cartItemId || i.id) === itemId);
     if (item) {
         item.quantity = quantity;
         localStorage.setItem('cart', JSON.stringify(cart));
@@ -255,7 +306,7 @@ function updateCartQuantity(itemId, quantity) {
 
 function removeFromCart(itemId) {
     const cart = getCart();
-    const filtered = cart.filter(i => i.id !== itemId);
+    const filtered = cart.filter(i => (i.cartItemId || i.id) !== itemId);
     localStorage.setItem('cart', JSON.stringify(filtered));
 }
 
@@ -271,6 +322,50 @@ function getCartTotal() {
 function getCartCount() {
     const cart = getCart();
     return cart.reduce((sum, item) => sum + item.quantity, 0);
+}
+
+// Categories Management
+function getCategories() {
+    return JSON.parse(localStorage.getItem('categories') || '[]');
+}
+
+function addCategory(name) {
+    const categories = getCategories();
+    const newCategory = {
+        id: generateId(),
+        name: name,
+        order: categories.length + 1
+    };
+    categories.push(newCategory);
+    localStorage.setItem('categories', JSON.stringify(categories));
+    return newCategory;
+}
+
+function updateCategory(id, name) {
+    const categories = getCategories();
+    const category = categories.find(c => c.id === id);
+    if (category) {
+        category.name = name;
+        localStorage.setItem('categories', JSON.stringify(categories));
+        return category;
+    }
+    return null;
+}
+
+function deleteCategory(id) {
+    const categories = getCategories();
+    const filtered = categories.filter(c => c.id !== id);
+    localStorage.setItem('categories', JSON.stringify(filtered));
+    
+    // Remove category from menu items
+    const items = getMenuItems();
+    items.forEach(item => {
+        const cat = categories.find(c => c.id === id);
+        if (cat && item.category === cat.name) {
+            item.category = 'Uncategorized';
+        }
+    });
+    localStorage.setItem('menuItems', JSON.stringify(items));
 }
 
 // Orders
