@@ -456,6 +456,18 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--muted-foreground);
 }
 
+.admin-link {
+    color: var(--muted-foreground);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.admin-link:hover {
+    color: var(--primary);
+    text-decoration: underline;
+}
+
 /* Floating WhatsApp Button */
 .whatsapp-float {
     position: fixed;
