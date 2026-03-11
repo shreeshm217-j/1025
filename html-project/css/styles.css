@@ -98,6 +98,39 @@ h1, h2, h3, h4, h5, h6 {
     width: 100%;
 }
 
+/* Site Header with Logo */
+.site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(18, 18, 18, 0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 12px 0;
+}
+
+.logo-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: center;
+}
+
+.site-logo {
+    height: 80px;
+    width: auto;
+    max-width: 200px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.site-logo:hover {
+    transform: scale(1.05);
+}
+
 /* Hero Section */
 .hero {
     position: relative;
@@ -109,6 +142,7 @@ h1, h2, h3, h4, h5, h6 {
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
+    margin-top: 104px;
 }
 
 .hero-overlay {
@@ -458,7 +492,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Menu Page Styles */
 .menu-header {
     position: sticky;
-    top: 0;
+    top: 104px;
     z-index: 100;
     background: rgba(30, 30, 30, 0.95);
     backdrop-filter: blur(12px);
@@ -527,7 +561,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Category Filter */
 .category-filter {
     position: sticky;
-    top: 64px;
+    top: 168px;
     z-index: 90;
     background: rgba(18, 18, 18, 0.95);
     backdrop-filter: blur(12px);
@@ -1214,6 +1248,27 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .site-logo {
+        height: 60px;
+        max-width: 150px;
+    }
+    
+    .site-header {
+        padding: 8px 0;
+    }
+    
+    .hero {
+        margin-top: 76px;
+    }
+    
+    .menu-header {
+        top: 76px;
+    }
+    
+    .category-filter {
+        top: 140px;
+    }
+    
     .hero-buttons {
         flex-direction: column;
         width: 100%;
