@@ -1,5 +1,10 @@
 // Data Management with localStorage
 
+// Generate unique ID
+function generateId() {
+    return 'id-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+}
+
 // Initialize data if not exists
 function initializeData() {
     // Initialize categories
@@ -219,11 +224,6 @@ function initializeData() {
     if (!localStorage.getItem('orders')) {
         localStorage.setItem('orders', JSON.stringify([]));
     }
-}
-
-// Generate unique ID
-function generateId() {
-    return 'id-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
 }
 
 // Menu Items CRUD

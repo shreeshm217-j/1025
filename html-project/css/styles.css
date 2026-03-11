@@ -926,11 +926,29 @@ h1, h2, h3, h4, h5, h6 {
     align-items: center;
     justify-content: center;
     padding: 24px;
+    background: var(--background);
 }
 
 .admin-login-container {
     width: 100%;
     max-width: 500px;
+    position: relative;
+    z-index: 1;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--foreground);
+    text-decoration: none;
+    font-weight: 600;
+    margin-bottom: 16px;
+    transition: color 0.3s ease;
+}
+
+.back-link:hover {
+    color: var(--primary);
 }
 
 .login-card {
