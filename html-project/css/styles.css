@@ -457,9 +457,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .admin-link {
-    color: var(--muted-foreground);
+    color: white;
     text-decoration: none;
     font-size: 14px;
+    font-weight: 500;
     transition: color 0.3s ease;
 }
 
