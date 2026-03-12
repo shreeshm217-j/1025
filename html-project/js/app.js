@@ -240,8 +240,15 @@ function orderFromCart() {
     
     const orderText = cart.map(item => `- ${item.name} x${item.quantity} (₹${item.price * item.quantity})`).join('\\n');
     const total = getCartTotal();
-    const message = `Hello DK Pizza Cafe,\\n\\nI want to order:\\n${orderText}\\n\\nTotal: ₹${total}\\n\\nPlease confirm the order.`;
-    
+  const message = `Hello DK Pizza Cafe,
+
+I want to order:
+
+${orderText}
+
+Total: ₹${total}
+
+Please confirm the order.`;   
     // Save order
     addOrder({
         items: cart,
