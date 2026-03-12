@@ -116,7 +116,8 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0 auto;
     padding: 0 24px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .site-logo {
@@ -129,6 +130,25 @@ h1, h2, h3, h4, h5, h6 {
 
 .site-logo:hover {
     transform: scale(1.05);
+}
+
+.header-admin-btn {
+    background: var(--primary);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(217, 56, 30, 0.3);
+}
+
+.header-admin-btn:hover {
+    background: var(--secondary);
+    color: var(--background);
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(242, 169, 0, 0.4);
 }
 
 /* Hero Section */
@@ -585,19 +605,25 @@ h1, h2, h3, h4, h5, h6 {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     text-align: center;
     color: var(--muted-foreground);
+    font-size: 14px;
 }
 
 .admin-link {
     color: white;
     text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    transition: color 0.3s ease;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 4px;
+    background: var(--primary);
+    transition: all 0.3s ease;
+    margin-left: 8px;
 }
 
 .admin-link:hover {
-    color: var(--primary);
-    text-decoration: underline;
+    background: var(--secondary);
+    color: var(--background);
+    transform: scale(1.05);
 }
 
 /* Floating WhatsApp Button */
