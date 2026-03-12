@@ -4,12 +4,28 @@ let currentTab = 'menu';
 let editingItemId = null;
 let editingCategoryId = null;
 
-// Check if user is logged in
+// Check if user is logged in with session validation
 document.addEventListener('DOMContentLoaded', function() {
     const isLoggedIn = localStorage.getItem('isAdminLoggedIn');
+    const loginTimestamp = localStorage.getItem('loginTimestamp');
+    
+    // Check if logged in
     if (!isLoggedIn) {
         window.location.href = 'admin-login.html';
         return;
+    }
+    
+    // Check session expiry (24 hours)
+    if (loginTimestamp) {
+        const loginTime = new Date(loginTimestamp);
+        const now = new Date();
+        const hoursDiff = (now - loginTime) / (1000 * 60 * 60);
+        
+        if (hoursDiff > 24) {
+            // Session expired
+            logout();
+            return;
+        }
     }
     
     loadMenuItems();
@@ -21,6 +37,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function logout() {
     localStorage.removeItem('isAdminLoggedIn');
+    localStorage.removeItem('adminUsername');
+    localStorage.removeItem('loginTimestamp');
     showToast('Logged out successfully');
     setTimeout(() => {
         window.location.href = 'index.html';

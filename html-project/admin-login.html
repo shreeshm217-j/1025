@@ -28,31 +28,20 @@
                 </div>
 
                 <form id="admin-form" onsubmit="handleAuth(event)">
-                    <div class="form-group" id="name-group" style="display: none;">
-                        <label for="full_name">Full Name</label>
-                        <input type="text" id="full_name" data-testid="full-name-input" placeholder="Enter your full name">
-                    </div>
-
                     <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" data-testid="email-input" placeholder="admin@dkpizza.com" required>
+                        <label for="username">Username</label>
+                        <input type="text" id="username" data-testid="username-input" placeholder="Enter username" required autocomplete="username">
                     </div>
 
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" id="password" data-testid="password-input" placeholder="Enter your password" required>
+                        <input type="password" id="password" data-testid="password-input" placeholder="Enter password" required autocomplete="current-password">
                     </div>
 
                     <button type="submit" class="btn btn-primary btn-full" data-testid="auth-submit-btn">
-                        🔑 Log In
+                        🔐 Log In
                     </button>
                 </form>
-
-                <div class="form-footer">
-                    <button class="toggle-auth" onclick="toggleAuthMode()" data-testid="toggle-auth-mode">
-                        Don't have an account? Sign up
-                    </button>
-                </div>
             </div>
         </div>
     </div>
@@ -63,66 +52,31 @@
     <script src="js/data.js"></script>
     <script src="js/app.js"></script>
     <script>
-        let isSignup = false;
-
-        function toggleAuthMode() {
-            isSignup = !isSignup;
-            const formTitle = document.getElementById('form-title');
-            const formSubtitle = document.getElementById('form-subtitle');
-            const submitBtn = document.querySelector('[data-testid="auth-submit-btn"]');
-            const toggleBtn = document.querySelector('[data-testid="toggle-auth-mode"]');
-            const nameGroup = document.getElementById('name-group');
-            const nameInput = document.getElementById('full_name');
-
-            if (isSignup) {
-                formTitle.textContent = 'Create Admin Account';
-                formSubtitle.textContent = 'Register to manage your cafe';
-                submitBtn.innerHTML = '🔑 Sign Up';
-                toggleBtn.textContent = 'Already have an account? Log in';
-                nameGroup.style.display = 'block';
-                nameInput.required = true;
-            } else {
-                formTitle.textContent = 'Admin Login';
-                formSubtitle.textContent = 'Access your dashboard';
-                submitBtn.innerHTML = '🔑 Log In';
-                toggleBtn.textContent = "Don't have an account? Sign up";
-                nameGroup.style.display = 'none';
-                nameInput.required = false;
-            }
-        }
+        // Hardcoded admin credentials
+        const ADMIN_USERNAME = 'dkpizza';
+        const ADMIN_PASSWORD = 'dk@12345';
 
         function handleAuth(e) {
             e.preventDefault();
-            const email = document.getElementById('email').value;
+            const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-            const fullName = document.getElementById('full_name').value;
 
-            if (isSignup) {
-                // Signup
-                const admin = {
-                    email: email,
-                    password: password,
-                    fullName: fullName,
-                    isAdmin: true
-                };
-                localStorage.setItem('adminUser', JSON.stringify(admin));
-                showToast('Account created successfully!');
+            // Verify credentials
+            if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+                // Set login session
+                localStorage.setItem('isAdminLoggedIn', 'true');
+                localStorage.setItem('adminUsername', username);
+                localStorage.setItem('loginTimestamp', new Date().toISOString());
+                
+                showToast('Login successful! Welcome ' + username);
+                
                 setTimeout(() => {
-                    localStorage.setItem('isAdminLoggedIn', 'true');
                     window.location.href = 'admin-dashboard.html';
                 }, 1000);
             } else {
-                // Login
-                const storedAdmin = JSON.parse(localStorage.getItem('adminUser'));
-                if (storedAdmin && storedAdmin.email === email && storedAdmin.password === password) {
-                    localStorage.setItem('isAdminLoggedIn', 'true');
-                    showToast('Welcome back, ' + storedAdmin.fullName + '!');
-                    setTimeout(() => {
-                        window.location.href = 'admin-dashboard.html';
-                    }, 1000);
-                } else {
-                    showToast('Invalid credentials', 'error');
-                }
+                showToast('Invalid username or password', 'error');
+                // Clear password field
+                document.getElementById('password').value = '';
             }
         }
     </script>
