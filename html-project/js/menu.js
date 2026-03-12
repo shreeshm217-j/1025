@@ -143,6 +143,45 @@ function addToCartWithSize(item) {
     } else {
         cart.push({ ...item, quantity: 1 });
     }
+    function sendWhatsAppOrder() {
+
+    const cart = getCart();
+
+    if (cart.length === 0) {
+        showToast("Your cart is empty");
+        return;
+    }
+
+    let orderText = "";
+    let total = 0;
+
+    cart.forEach((item, index) => {
+
+        const sizeText = item.selectedSize ? ` (${item.selectedSize})` : "";
+
+        const itemTotal = item.price * item.quantity;
+
+        orderText += `${index + 1}. ${item.name}${sizeText} x${item.quantity} - ₹${itemTotal}\n`;
+
+        total += itemTotal;
+
+    });
+
+    const message =
+`Hello DK Pizza Cafe,
+
+Order Details:
+${orderText}
+
+Total Bill: ₹${total}
+
+Please confirm the order.
+
+Thank you.`;
+
+    window.open(`https://wa.me/919956407087?text=${encodeURIComponent(message)}`, "_blank");
+
+}
     
     localStorage.setItem('cart', JSON.stringify(cart));
 }
