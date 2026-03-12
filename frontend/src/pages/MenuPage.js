@@ -22,7 +22,9 @@ const MenuPage = () => {
 
   const fetchMenu = async () => {
     try {
-      const res = await fetch(`${API}/menu`);
+       const res = await fetch(`${API}/menu`, {
+  cache: "no-store"
+});
       const data = await res.json();
       setMenuItems(data);
     } catch (err) {
