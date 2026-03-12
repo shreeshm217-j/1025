@@ -57,15 +57,17 @@ const AdminDashboard = () => {
     };
   };
 
-  const fetchMenuItems = async () => {
-    try {
-      const res = await fetch(`${API}/menu`);
-      const data = await res.json();
-      setMenuItems(data);
-    } catch (err) {
-      console.error('Error fetching menu:', err);
-    }
-  };
+   const fetchMenuItems = async () => {
+  try {
+    const res = await fetch(`${API}/menu`, {
+      cache: "no-store"
+    });
+    const data = await res.json();
+    setMenuItems(data);
+  } catch (err) {
+    console.error('Error fetching menu:', err);
+  }
+};
 
   const fetchSettings = async () => {
     try {
@@ -139,10 +141,11 @@ const AdminDashboard = () => {
         body: JSON.stringify(payload)
       });
 
-      if (res.ok) {
-        toast.success(`Item ${editingItem ? 'updated' : 'added'} successfully`);
-        setIsDialogOpen(false);
-        fetchMenuItems();
+       if (res.ok) {
+  toast.success(`Item ${editingItem ? 'updated' : 'added'} successfully`);
+  setIsDialogOpen(false);
+  await fetchMenuItems();
+}
       } else {
         const error = await res.json();
         toast.error(error.detail || 'Failed to save item');
@@ -164,7 +167,7 @@ const AdminDashboard = () => {
 
       if (res.ok) {
         toast.success('Item deleted successfully');
-        fetchMenuItems();
+        await fetchMenuItems();
       } else {
         toast.error('Failed to delete item');
       }
