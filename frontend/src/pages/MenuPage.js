@@ -51,8 +51,25 @@ const MenuPage = () => {
       return;
     }
 
-    const orderText = cart.map(item => `- ${item.name} x${item.quantity} (₹${item.price * item.quantity})`).join('\n');
-    const message = `Hello DK Pizza Cafe,\n\nI want to order:\n${orderText}\n\nTotal: ₹${cartTotal}\n\nPlease confirm the order.`;
+     let orderText = "";
+
+cart.forEach((item, index) => {
+  const sizeText = item.size ? ` (${item.size})` : "";
+  orderText += `${index + 1}. ${item.name}${sizeText} x${item.quantity} - ₹${item.price * item.quantity}\n`;
+});
+
+const message = `
+Hello DK Pizza Cafe,
+
+Order Details:
+${orderText}
+
+Total Bill: ₹${cartTotal}
+
+Please confirm the order.
+
+Thank you.
+`;
     
     // Log order to backend
     fetch(`${API}/orders`, {
