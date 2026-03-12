@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     loadMenuItems();
     loadCategories();
+    loadGalleryImages();
     loadOrders();
     loadSettings();
 });
@@ -47,6 +48,8 @@ function switchTab(tab) {
         loadMenuItems();
     } else if (tab === 'categories') {
         loadCategories();
+    } else if (tab === 'gallery') {
+        loadGalleryImages();
     } else if (tab === 'orders') {
         loadOrders();
     } else if (tab === 'settings') {
@@ -378,4 +381,58 @@ function saveSettings(event) {
     
     updateSettings(settingsData);
     showToast('Settings updated successfully');
+}
+
+// Gallery Management
+function loadGalleryImages() {
+    const images = getGalleryImages();
+    const grid = document.getElementById('admin-gallery-grid');
+    
+    if (!grid) return;
+    
+    grid.innerHTML = images.map(image => `
+        <div class="admin-gallery-item" data-testid="gallery-item-${image.id}">
+            <img src="${image.url}" alt="${image.alt}">
+            <div class="admin-gallery-overlay">
+                <button 
+                    class="btn btn-outline btn-sm" 
+                    onclick="handleDeleteGalleryImage('${image.id}')"
+                    data-testid="delete-gallery-${image.id}"
+                    style="border-color: var(--error); color: var(--error);"
+                >
+                    🗑️ Delete
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function openAddGalleryModal() {
+    document.getElementById('gallery-form').reset();
+    document.getElementById('gallery-modal').classList.add('active');
+}
+
+function closeGalleryModal() {
+    document.getElementById('gallery-modal').classList.remove('active');
+}
+
+function saveGalleryImage(event) {
+    event.preventDefault();
+    
+    const url = document.getElementById('gallery-image-url').value;
+    const alt = document.getElementById('gallery-image-alt').value || 'Cafe Image';
+    
+    addGalleryImage(url, alt);
+    showToast('Image added to gallery successfully');
+    
+    closeGalleryModal();
+    loadGalleryImages();
+}
+
+function handleDeleteGalleryImage(imageId) {
+    if (confirm('Are you sure you want to delete this image?')) {
+        deleteGalleryImage(imageId);
+        showToast('Image deleted successfully');
+        loadGalleryImages();
+    }
 }

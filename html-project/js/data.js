@@ -224,6 +224,38 @@ function initializeData() {
     if (!localStorage.getItem('orders')) {
         localStorage.setItem('orders', JSON.stringify([]));
     }
+    
+    // Initialize gallery images
+    if (!localStorage.getItem('galleryImages')) {
+        const defaultGallery = [
+            {
+                id: generateId(),
+                url: "https://customer-assets.emergentagent.com/job_dk-pizza-menu/artifacts/omapt80a_WhatsApp%20Image%202026-03-12%20at%203.39.54%20PM.jpeg",
+                alt: "DK Pizza Cafe Menu"
+            },
+            {
+                id: generateId(),
+                url: "https://customer-assets.emergentagent.com/job_dk-pizza-menu/artifacts/x3km4ghq_WhatsApp%20Image%202026-03-12%20at%203.39.55%20PM.jpeg",
+                alt: "DK Pizza Cafe Offer"
+            },
+            {
+                id: generateId(),
+                url: "https://customer-assets.emergentagent.com/job_dk-pizza-menu/artifacts/zcffq1rz_WhatsApp%20Image%202026-03-12%20at%203.40.44%20PM.jpeg",
+                alt: "Cafe Interior"
+            },
+            {
+                id: generateId(),
+                url: "https://customer-assets.emergentagent.com/job_dk-pizza-menu/artifacts/aj7qoacm_WhatsApp%20Image%202026-03-12%20at%203.40.45%20PM.jpeg",
+                alt: "Cafe Seating"
+            },
+            {
+                id: generateId(),
+                url: "https://customer-assets.emergentagent.com/job_dk-pizza-menu/artifacts/xkp0r14h_WhatsApp%20Image%202026-03-12%20at%203.40.45%20PM%20%281%29.jpeg",
+                alt: "Cafe Counter"
+            }
+        ];
+        localStorage.setItem('galleryImages', JSON.stringify(defaultGallery));
+    }
 }
 
 // Menu Items CRUD
@@ -380,6 +412,29 @@ function addOrder(order) {
     orders.unshift(order);
     localStorage.setItem('orders', JSON.stringify(orders));
     return order;
+}
+
+// Gallery Management
+function getGalleryImages() {
+    return JSON.parse(localStorage.getItem('galleryImages') || '[]');
+}
+
+function addGalleryImage(url, alt = 'Cafe Image') {
+    const images = getGalleryImages();
+    const newImage = {
+        id: generateId(),
+        url: url,
+        alt: alt
+    };
+    images.push(newImage);
+    localStorage.setItem('galleryImages', JSON.stringify(images));
+    return newImage;
+}
+
+function deleteGalleryImage(id) {
+    const images = getGalleryImages();
+    const filtered = images.filter(img => img.id !== id);
+    localStorage.setItem('galleryImages', JSON.stringify(filtered));
 }
 
 // Initialize data on load

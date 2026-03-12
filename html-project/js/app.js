@@ -70,8 +70,73 @@ if (window.location.pathname.endsWith('index.html') || window.location.pathname 
         if (document.getElementById('footer-address')) {
             document.getElementById('footer-address').textContent = settings.address;
         }
+        
+        // Load gallery
+        loadGallery();
     });
 }
+
+// Gallery Functions
+let currentLightboxIndex = 0;
+let galleryImagesCache = [];
+
+function loadGallery() {
+    const galleryGrid = document.getElementById('gallery-grid');
+    if (!galleryGrid) return;
+    
+    galleryImagesCache = getGalleryImages();
+    
+    galleryGrid.innerHTML = galleryImagesCache.map((image, index) => `
+        <div class="gallery-item" onclick="openLightbox(${index})">
+            <img src="${image.url}" alt="${image.alt}">
+            <div class="gallery-overlay">
+                <span>🔍 View</span>
+            </div>
+        </div>
+    `).join('');
+}
+
+function openLightbox(index) {
+    currentLightboxIndex = index;
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImage = document.getElementById('lightbox-image');
+    
+    lightbox.style.display = 'flex';
+    lightboxImage.src = galleryImagesCache[index].url;
+    lightboxImage.alt = galleryImagesCache[index].alt;
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    lightbox.style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+function changeLightboxImage(direction) {
+    currentLightboxIndex += direction;
+    
+    if (currentLightboxIndex < 0) {
+        currentLightboxIndex = galleryImagesCache.length - 1;
+    } else if (currentLightboxIndex >= galleryImagesCache.length) {
+        currentLightboxIndex = 0;
+    }
+    
+    const lightboxImage = document.getElementById('lightbox-image');
+    lightboxImage.src = galleryImagesCache[currentLightboxIndex].url;
+    lightboxImage.alt = galleryImagesCache[currentLightboxIndex].alt;
+}
+
+// Close lightbox on Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeLightbox();
+    } else if (e.key === 'ArrowLeft') {
+        changeLightboxImage(-1);
+    } else if (e.key === 'ArrowRight') {
+        changeLightboxImage(1);
+    }
+});
 
 // Cart Management (shared across pages)
 function toggleCart() {

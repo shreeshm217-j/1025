@@ -27,6 +27,7 @@
     <div class="admin-tabs">
         <button class="admin-tab active" onclick="switchTab('menu')" data-testid="tab-menu">Menu</button>
         <button class="admin-tab" onclick="switchTab('categories')" data-testid="tab-categories">Categories</button>
+        <button class="admin-tab" onclick="switchTab('gallery')" data-testid="tab-gallery">Gallery</button>
         <button class="admin-tab" onclick="switchTab('orders')" data-testid="tab-orders">Orders</button>
         <button class="admin-tab" onclick="switchTab('settings')" data-testid="tab-settings">Settings</button>
     </div>
@@ -59,6 +60,22 @@
 
             <div id="categories-list" class="categories-list">
                 <!-- Categories will be dynamically inserted -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Gallery Tab -->
+    <div id="gallery-tab" class="tab-content">
+        <div class="container">
+            <div class="tab-header">
+                <h2>Gallery Images</h2>
+                <button class="btn btn-primary" onclick="openAddGalleryModal()" data-testid="add-gallery-btn">
+                    ➕ Add Image
+                </button>
+            </div>
+
+            <div id="admin-gallery-grid" class="admin-gallery-grid">
+                <!-- Gallery images will be dynamically inserted -->
             </div>
         </div>
     </div>
@@ -177,6 +194,32 @@
 
                 <button type="submit" class="btn btn-primary btn-full" data-testid="save-category-btn">
                     💾 Save Category
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Gallery Image Modal -->
+    <div id="gallery-modal" class="modal">
+        <div class="modal-overlay" onclick="closeGalleryModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Gallery Image</h3>
+                <button class="modal-close" onclick="closeGalleryModal()">&times;</button>
+            </div>
+            <form id="gallery-form" onsubmit="saveGalleryImage(event)">
+                <div class="form-group">
+                    <label for="gallery-image-url">Image URL</label>
+                    <input type="url" id="gallery-image-url" data-testid="gallery-image-url" placeholder="https://example.com/image.jpg" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="gallery-image-alt">Image Description (optional)</label>
+                    <input type="text" id="gallery-image-alt" placeholder="e.g., Cafe Interior" data-testid="gallery-image-alt">
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full" data-testid="save-gallery-btn">
+                    💾 Add Image
                 </button>
             </form>
         </div>
