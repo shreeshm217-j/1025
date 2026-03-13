@@ -238,9 +238,16 @@ function orderFromCart() {
         return;
     }
     
-    const orderText = cart.map(item => `- ${item.name} x${item.quantity} (₹${item.price * item.quantity})`).join('\\n');
-    const total = getCartTotal();
-  const message = `Hello DK Pizza Cafe,
+      let orderText = "";
+
+cart.forEach(item => {
+    const size = item.selectedSize ? ` (${item.selectedSize})` : "";
+    orderText += `• ${item.name}${size} x${item.quantity} (₹${item.price * item.quantity})\n`;
+});
+
+const total = getCartTotal();
+
+const message = `Hello DK Pizza Cafe,
 
 I want to order:
 
