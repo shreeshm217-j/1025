@@ -2,17 +2,39 @@
 
 import { db } from "./firebase.js";
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+ async function loadMenuFromFirebase() {
+  try {
+    const querySnapshot = await getDocs(collection(db, "menu"));
+    const items = [];
+
+    querySnapshot.forEach((doc) => {
+      items.push({ id: doc.id, ...doc.data() });
+    });
+
+    return items;
+  } catch (error) {
+    console.error("Error loading menu:", error);
+    return [];
+  }    
+}
+
 let currentCategory = 'All';
 
  document.addEventListener('DOMContentLoaded', async function() {
-    window.menuItems = await loadMenuFromFirebase();
+     window.menuItems = await loadMenuFromFirebase() || [];
     loadCategoryButtons();
     renderMenuItems();
     updateCartDisplay();
 });
 
 function loadCategoryButtons() {
-    const categories = getCategories();
+ const categories = [...new Set(
+  window.menuItems
+    .map(item => item.category)
+    .filter(Boolean)
+)].map(c => ({ name: c }));
+ 
     const filterDiv = document.getElementById('category-filter');
     
     // Create All button
@@ -41,7 +63,10 @@ function filterCategory(category) {
 function renderMenuItems() {
     const menuGrid = document.getElementById('menu-grid');
     const noItems = document.getElementById('no-items');
-    const items = getMenuItemsByCategory(currentCategory);
+
+ const items = currentCategory === 'All'
+  ? window.menuItems
+  : window.menuItems.filter(item => item.category === currentCategory);
     
     if (items.length === 0) {
         menuGrid.innerHTML = '';
@@ -101,7 +126,7 @@ function renderMenuItems() {
 }
 
 function handleAddToCart(itemId) {
-    const items = getMenuItems();
+     const items = window.menuItems;
     const item = items.find(i => i.id === itemId);
     
     if (item) {
@@ -115,7 +140,9 @@ function handleAddToCart(itemId) {
             }
         });
         
-        const selectedSize = item.sizes[selectedSizeIndex];
+          const selectedSize = (item.sizes && item.sizes.length)
+  ? item.sizes[selectedSizeIndex]
+  : { name: "Regular", price: item.price || 0 };
         
         // Create cart item with size info
         const cartItem = {
@@ -137,16 +164,19 @@ function handleAddToCart(itemId) {
 }
 
 // Modified addToCart to handle sizes
-function addToCartWithSize(item) {
+ function addToCartWithSize(item) {
     const cart = getCart();
     const existing = cart.find(i => i.cartItemId === item.cartItemId);
-    
+
     if (existing) {
         existing.quantity += 1;
     } else {
         cart.push({ ...item, quantity: 1 });
     }
-    function sendWhatsAppOrder() {
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+}
+function sendWhatsAppOrder() {
 
     const cart = getCart();
 
@@ -161,7 +191,6 @@ function addToCartWithSize(item) {
     cart.forEach((item, index) => {
 
         const sizeText = item.selectedSize ? ` (${item.selectedSize})` : "";
-
         const itemTotal = item.price * item.quantity;
 
         orderText += `${index + 1}. ${item.name}${sizeText} x${item.quantity} - ₹${itemTotal}\n`;
@@ -183,8 +212,4 @@ Please confirm the order.
 Thank you.`;
 
     window.open(`https://wa.me/919956407087?text=${encodeURIComponent(message)}`, "_blank");
-
-}
-    
-    localStorage.setItem('cart', JSON.stringify(cart));
 }
