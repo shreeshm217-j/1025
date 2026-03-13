@@ -1,8 +1,5 @@
 // Menu Page Functionality
 
-import { firebaseLoadMenu } from "./firebase-sync.js";
-import { getCategories } from "./data.js";
-
 let currentCategory = 'All';
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -38,15 +35,10 @@ function filterCategory(category) {
     renderMenuItems();
 }
 
- async function renderMenuItems() {
+function renderMenuItems() {
     const menuGrid = document.getElementById('menu-grid');
     const noItems = document.getElementById('no-items');
-    
-     let items = await firebaseLoadMenu();
-
-if (currentCategory !== "All") {
-    items = items.filter(item => item.category === currentCategory);
-}
+    const items = getMenuItemsByCategory(currentCategory);
     
     if (items.length === 0) {
         menuGrid.innerHTML = '';
@@ -105,37 +97,37 @@ if (currentCategory !== "All") {
     }).join('');
 }
 
- async function handleAddToCart(itemId) {
-
-    const items = await firebaseLoadMenu();
+function handleAddToCart(itemId) {
+    const items = getMenuItems();
     const item = items.find(i => i.id === itemId);
-
+    
     if (item) {
-
+        // Get selected size
         const sizeRadios = document.querySelectorAll(`input[name="size-${itemId}"]`);
         let selectedSizeIndex = 0;
-
+        
         sizeRadios.forEach((radio, idx) => {
             if (radio.checked) {
                 selectedSizeIndex = idx;
             }
         });
-
-        const selectedSize = (item.sizes || [])[selectedSizeIndex];
+        
+        const selectedSize = item.sizes[selectedSizeIndex];
+        
+        // Create cart item with size info
         const cartItem = {
             ...item,
             selectedSize: selectedSize.name,
             price: selectedSize.price,
-            cartItemId: `${item.id}-${selectedSize.name}`
+            cartItemId: `${item.id}-${selectedSize.name}` // Unique ID for cart
         };
-
+        
         addToCartWithSize(cartItem);
-
         showToast(`${item.name} (${selectedSize.name}) added to cart`);
-
+        
+        // Update cart count
         const count = getCartCount();
         const cartCountEl = document.getElementById('cart-count');
-
         cartCountEl.textContent = count;
         cartCountEl.style.display = count > 0 ? 'flex' : 'none';
     }
