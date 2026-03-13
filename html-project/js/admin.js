@@ -1,5 +1,7 @@
 // Admin Dashboard Functionality
 
+import { supabase } from "./supabase.js";
+
 let currentTab = 'menu';
 let editingItemId = null;
 let editingCategoryId = null;
@@ -76,50 +78,61 @@ function switchTab(tab) {
 }
 
 // Menu Management
-function loadMenuItems() {
-    const items = getMenuItems();
+ async function loadMenuItems() {
+
+    const { data: items, error } = await supabase
+        .from("menu")
+        .select("*");
+
+    if (error) {
+        console.error("Error loading menu:", error);
+        return;
+    }
+
     const grid = document.getElementById('admin-menu-grid');
-    
+
     grid.innerHTML = items.map(item => {
-        const priceDisplay = item.sizes && item.sizes.length > 0 
+
+        const priceDisplay = item.sizes && item.sizes.length > 0
             ? item.sizes.map(s => `${s.name}: ₹${s.price}`).join(', ')
             : 'No sizes';
-            
+
         return `
-        <div class="admin-menu-item" data-testid="admin-menu-item-${item.id}">
+        <div class="admin-menu-item">
+
             ${item.image_url ? `
                 <div class="admin-item-image">
                     <img src="${item.image_url}" alt="${item.name}">
                 </div>
             ` : ''}
+
             <div class="admin-item-content">
-                <div class="admin-item-header">
-                    <h3>${item.name}</h3>
-                </div>
+                <h3>${item.name}</h3>
                 <p>${item.description}</p>
                 <div class="category-tag">${item.category}</div>
                 <div class="sizes-display">${priceDisplay}</div>
+
                 <div class="admin-item-actions">
-                    <button 
-                        class="btn btn-outline btn-sm" 
-                        onclick="openEditItemModal('${item.id}')"
-                        data-testid="edit-item-${item.id}"
-                    >
-                        ✏️ Edit
+
+                    <button class="btn btn-outline btn-sm"
+                        onclick="openEditItemModal('${item.id}')">
+                        Edit
                     </button>
-                    <button 
-                        class="btn btn-outline btn-sm" 
+
+                    <button class="btn btn-outline btn-sm"
                         onclick="handleDeleteItem('${item.id}')"
-                        data-testid="delete-item-${item.id}"
-                        style="border-color: var(--error); color: var(--error);"
-                    >
-                        🗑️ Delete
+                        style="border-color: var(--error); color: var(--error);">
+                        Delete
                     </button>
+
                 </div>
+
             </div>
+
         </div>
-    `;
+        `;
     }).join('');
+
 }
 
 function loadCategoriesIntoSelect() {
@@ -176,9 +189,14 @@ function openAddItemModal() {
     document.getElementById('item-modal').classList.add('active');
 }
 
-function openEditItemModal(itemId) {
+ async function openEditItemModal(itemId) {
+
     editingItemId = itemId;
-    const items = getMenuItems();
+
+    const { data: items } = await supabase
+        .from("menu")
+        .select("*");
+
     const item = items.find(i => i.id === itemId);
     
     if (item) {
@@ -210,7 +228,7 @@ function closeItemModal() {
     editingItemId = null;
 }
 
-function saveItem(event) {
+ async function saveItem(event) {
     event.preventDefault();
     
     // Collect sizes
@@ -239,10 +257,15 @@ function saveItem(event) {
     };
     
     if (editingItemId) {
-        updateMenuItem(editingItemId, itemData);
+        await supabase
+    .from("menu")
+    .update(itemData)
+    .eq("id", editingItemId);
         showToast('Item updated successfully');
     } else {
-        addMenuItem(itemData);
+        await supabase
+    .from("menu")
+    .insert([itemData]);
         showToast('Item added successfully');
     }
     
@@ -250,9 +273,12 @@ function saveItem(event) {
     loadMenuItems();
 }
 
-function handleDeleteItem(itemId) {
+ async function handleDeleteItem(itemId) {
     if (confirm('Are you sure you want to delete this item?')) {
-        deleteMenuItem(itemId);
+        await supabase
+    .from("menu")
+    .delete()
+    .eq("id", itemId);
         showToast('Item deleted successfully');
         loadMenuItems();
     }
