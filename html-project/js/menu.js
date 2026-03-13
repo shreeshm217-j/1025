@@ -1,6 +1,24 @@
 // Menu Page Functionality
 
+import { supabase } from "./supabase.js";
+import { getCategories } from "./data.js";
+
 let currentCategory = 'All';
+let menuCache = [];
+
+async function loadMenuFromSupabase() {
+
+    const { data, error } = await supabase
+        .from("menu")
+        .select("*");
+
+    if (error) {
+        console.error("Error loading menu:", error);
+        return [];
+    }
+
+    return data;
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     loadCategoryButtons();
@@ -35,70 +53,76 @@ function filterCategory(category) {
     renderMenuItems();
 }
 
-function renderMenuItems() {
+ async function renderMenuItems() {
+
     const menuGrid = document.getElementById('menu-grid');
     const noItems = document.getElementById('no-items');
-    const items = getMenuItemsByCategory(currentCategory);
-    
+
+    menuCache = await loadMenuFromSupabase();
+let items = [...menuCache];
+
+    if (currentCategory !== "All") {
+        items = items.filter(item => item.category === currentCategory);
+    }
+
     if (items.length === 0) {
         menuGrid.innerHTML = '';
         noItems.style.display = 'block';
         return;
     }
-    
+
     noItems.style.display = 'none';
-    
+
     menuGrid.innerHTML = items.map(item => {
-        // Get sizes
+
         const sizes = item.sizes || [];
         const hasMultipleSizes = sizes.length > 1;
-        
+
         return `
-        <div class="menu-item" data-testid="menu-item-${item.id}">
+        <div class="menu-item">
+
             ${item.image_url ? `
                 <div class="menu-item-image">
                     <img src="${item.image_url}" alt="${item.name}">
                 </div>
             ` : ''}
+
             <div class="menu-item-content">
                 <h3>${item.name}</h3>
                 <p>${item.description}</p>
-                
+
                 ${hasMultipleSizes ? `
-                    <div class="size-options" id="sizes-${item.id}">
+                    <div class="size-options">
                         ${sizes.map((size, idx) => `
                             <label class="size-option">
                                 <input type="radio" name="size-${item.id}" value="${idx}" ${idx === 0 ? 'checked' : ''}>
-                                <span class="size-label">${size.name}</span>
-                                <span class="size-price">₹${size.price}</span>
+                                <span>${size.name}</span>
+                                <span>₹${size.price}</span>
                             </label>
                         `).join('')}
                     </div>
                 ` : sizes.length === 1 ? `
                     <div class="menu-item-footer">
-                        <span class="menu-item-price">₹${sizes[0].price}</span>
+                        <span>₹${sizes[0].price}</span>
                     </div>
                 ` : ''}
-                
-                <button 
-                    class="add-to-cart-btn" 
+
+                <button class="add-to-cart-btn"
                     onclick="handleAddToCart('${item.id}')"
-                    data-testid="add-to-cart-${item.id}"
-                    ${!item.available ? 'disabled' : ''}
-                    style="${hasMultipleSizes ? 'margin-top: 12px;' : ''}"
-                >
+                    ${!item.available ? 'disabled' : ''}>
                     Add to Cart
                 </button>
-                
-                ${!item.available ? '<p style="color: var(--error); font-size: 14px; margin-top: 8px;">Currently unavailable</p>' : ''}
+
             </div>
+
         </div>
-    `;
+        `;
     }).join('');
+
 }
 
-function handleAddToCart(itemId) {
-    const items = getMenuItems();
+async function handleAddToCart(itemId) {
+    const items = await loadMenuFromSupabase();
     const item = items.find(i => i.id === itemId);
     
     if (item) {
@@ -133,16 +157,16 @@ function handleAddToCart(itemId) {
     }
 }
 
-// Modified addToCart to handle sizes
-function addToCartWithSize(item) {
+ function addToCartWithSize(item) {
+
     const cart = getCart();
     const existing = cart.find(i => i.cartItemId === item.cartItemId);
-    
+
     if (existing) {
         existing.quantity += 1;
     } else {
         cart.push({ ...item, quantity: 1 });
     }
-    
+
     localStorage.setItem('cart', JSON.stringify(cart));
 }
