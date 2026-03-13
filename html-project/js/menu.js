@@ -1,8 +1,11 @@
-// Menu Page Functionality
+ // Menu Page Functionality
 
+import { db } from "./firebase.js";
+import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 let currentCategory = 'All';
 
-document.addEventListener('DOMContentLoaded', function() {
+ document.addEventListener('DOMContentLoaded', async function() {
+    window.menuItems = await loadMenuFromFirebase();
     loadCategoryButtons();
     renderMenuItems();
     updateCartDisplay();
