@@ -1,5 +1,25 @@
 // Admin Dashboard Functionality
 
+import {
+firebaseAddMenu,
+firebaseUpdateMenu,
+firebaseDeleteMenu
+} from "./firebase-sync.js";
+
+import {
+getMenuItems,
+getCategories,
+getOrders,
+getSettings,
+getGalleryImages,
+addCategory,
+updateCategory,
+deleteCategory,
+addGalleryImage,
+deleteGalleryImage,
+updateSettings
+} from "./data.js";
+
 let currentTab = 'menu';
 let editingItemId = null;
 let editingCategoryId = null;
@@ -453,4 +473,18 @@ function handleDeleteGalleryImage(imageId) {
         showToast('Image deleted successfully');
         loadGalleryImages();
     }
+}
+
+// Firebase menu wrappers (keep old function names working)
+
+function addMenuItem(itemData) {
+    firebaseAddMenu(itemData);
+}
+
+function updateMenuItem(id, data) {
+    firebaseUpdateMenu(id, data);
+}
+
+function deleteMenuItem(id) {
+    firebaseDeleteMenu(id);
 }
